@@ -1,0 +1,13 @@
+{
+    "name": "pulmonology/clinic-website",
+    "description": "Pulmonology Clinic Website with doctor appointments and contact form functionality.",
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    },
+    "authors": [
+        {
+            "name": "ereza4",
+            "email": "erezatemaj@gmail.com"
+        }
+    ]
+}
