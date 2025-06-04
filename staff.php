@@ -37,7 +37,7 @@
                 <p><strong>Specialized in:</strong> <?= htmlspecialchars($doc['specialized_in']) ?></p>
               </div>
               <div class="modal-footer justify-content-center">
-                <a href="make_appointment.php?doctor=<?= urlencode($doc['name']) ?>" class="btn btn-orange">Make an Appointment</a>
+                <a href="make_appointment.php?doctor=<?= $doc['id'] ?>" class="btn btn-orange">Make an Appointment</a>
               </div>
             </div>
           </div>

@@ -9,20 +9,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if ($email && $password) {
-        $stmt = $conn->prepare("SELECT id, name, password, role FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, name, password, role, is_active FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_role'] = $user['role'];
-
-            if ($user['role'] === 'admin') {
-                header("Location: admin/dashboard.php");
-                exit();
+            if (!$user['is_active']) {
+                $error = "Your account is deactivated. Please contact the clinic.";
             } else {
-                header("Location: index.php");
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['name'];
+                $_SESSION['user_role'] = $user['role'];
+
+                if ($user['role'] === 'admin') {
+                    header("Location: admin/dashboard.php");
+                } else {
+                    header("Location: index.php");
+                }
                 exit();
             }
         } else {
@@ -34,14 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Pulmonology Clinic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin: 0;
     }
     body {
-      background: url('/assets/img/login.jpg') no-repeat center center fixed;
+      background: url('assets/img/login.jpg') no-repeat center center fixed;
       background-size: cover;
       display: flex;
       align-items: center;
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .login-container {
       max-width: 450px;
       padding: 40px;
-      background-color: white;
+      background-color: rgba(255, 255, 255, 0.99);
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       border-radius: 10px;
     }
@@ -70,6 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .btn-orange:hover {
       background-color: #e96c00;
       color: white;
+    }
+    .text-orange {
+      color: #ff7a00;
     }
   </style>
 </head>
@@ -82,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h2 class="mb-4 text-orange text-center">Login to Your Account</h2>
 
           <?php if ($error): ?>
-            <div class="alert alert-danger"> <?= $error ?> </div>
+            <div class="alert alert-danger text-center"><?= htmlspecialchars($error) ?></div>
           <?php endif; ?>
 
           <form action="" method="post">

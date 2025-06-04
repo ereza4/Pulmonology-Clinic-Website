@@ -11,7 +11,6 @@ $totalDoctors = $conn->query("SELECT COUNT(*) FROM doctors")->fetchColumn();
 $totalUsers = $conn->query("SELECT COUNT(*) FROM users WHERE role = 'patient'")->fetchColumn();
 $totalAppointments = $conn->query("SELECT COUNT(*) FROM appointments")->fetchColumn();
 ?>
-<?php include 'inc/admin_header.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,14 +23,14 @@ $totalAppointments = $conn->query("SELECT COUNT(*) FROM appointments")->fetchCol
       margin: 0;
       padding: 0;
       height: 100%;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      background: linear-gradient(rgb(241, 189, 92, 0.6), rgba(255, 145, 145, 0.85)),
                   url('../assets/img/admin.png') no-repeat center center fixed;
       background-size: cover;
-      color: white;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .dashboard-wrapper {
-      padding: 100px 0 50px;
+      padding: 80px 0 50px;
       text-align: center;
     }
 
@@ -40,21 +39,47 @@ $totalAppointments = $conn->query("SELECT COUNT(*) FROM appointments")->fetchCol
     }
 
     .card {
-      border-left: 5px solid orange;
-      border-radius: 10px;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.9);
+      border-left: 6px solid #f05a28;
+      border-radius: 12px;
+      padding: 25px;
+      background-color: #fff;
       color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
     }
-    .text1{
-      margin: 60px;
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .text1 {
+      margin-top: 40px;
+    }
+
+    .quick-links {
+      margin-top: 40px;
+    }
+
+    .quick-links a {
+      margin: 10px;
+      min-width: 180px;
+    }
+
+    .btn-orange {
+      background-color: #f05a28;
+      color: white;
+      border: none;
+    }
+
+    .btn-orange:hover {
+      background-color: #d94e1f;
     }
   </style>
 </head>
 <body>
 
 <div class="container dashboard-wrapper">
-  <h1 class="display-4 fw-bold">Welcome to the Admin Dashboard</h1>
+  <h1 class="display-5 fw-bold text-dark">Welcome to the Admin Dashboard</h1>
 
   <div class="row stat-cards">
     <div class="col-md-4">
@@ -76,11 +101,18 @@ $totalAppointments = $conn->query("SELECT COUNT(*) FROM appointments")->fetchCol
       </div>
     </div>
   </div>
+
   <div class="text1">
-    <p class="lead">Manage doctors, appointments and patients efficiently.</p>
+    <p class="lead text-dark">Manage doctors, appointments, and patients efficiently from this control panel.</p>
+  </div>
+
+  <div class="quick-links">
+    <a href="doctors.php" class="btn btn-orange btn-lg">Manage Doctors</a>
+    <a href="appointments.php" class="btn btn-orange btn-lg">Manage Appointments</a>
+    <a href="patients.php" class="btn btn-orange btn-lg">View Patients</a>
+    <a href="../logout.php" class="btn btn-orange btn-lg">Logout</a>
   </div>
 </div>
 
 </body>
 </html>
-

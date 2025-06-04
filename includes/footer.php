@@ -33,7 +33,7 @@
         <h5 class="text-uppercase">Contact</h5>
         <p class="mt-3">Pulmonology Clinic, Pristina</p>
         <p>Email: <a href="mailto:info@pulmonology-clinic.com" class="text-white">info@pulmonology-clinic.com</a></p>
-        <p>Phone: <a href="tel:+38349111222" class="text-white">+383 49 111 222</a></p>
+        <p>Phone: <a href="tel:+38349111222" class="text-white">+383 49 555 666</a></p>
       </div>
 
     </div>

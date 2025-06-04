@@ -2,7 +2,6 @@
 session_start();
 require '../config.php';
 
-
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header('Location: ../login.php');
     exit();
@@ -18,11 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $experience = $_POST['experience'] ?? '';
     $specialized_in = $_POST['specialized_in'] ?? '';
 
-    
     if (!$name || !$title || !$bio || !$experience || !$specialized_in) {
         $error = 'Please fill in all fields.';
     } else {
-        
         $imageName = 'default.jpg';
         if (!empty($_FILES['image']['name'])) {
             $targetDir = "../assets/img/";
@@ -31,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
         }
 
-       
         try {
             $stmt = $conn->prepare("INSERT INTO doctors (name, title, bio, experience, specialized_in, image) 
                                     VALUES (?, ?, ?, ?, ?, ?)");
@@ -44,42 +40,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<?php include 'inc/admin_header.php'; ?>
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
 
-<div class="container mt-5">
-    <h2 class="mb-4">Add New Doctor</h2>
+  .text-orange {
+    color: #ff7a00;
+  }
 
-    <?php if ($success): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-    <?php elseif ($error): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+  .btn-orange {
+    background-color: #ff7a00;
+    color: white;
+    border: none;
+  }
 
-    <form method="post" enctype="multipart/form-data">
-        <div class="mb-3">
+  .btn-orange:hover {
+    background-color: #e96c00;
+    color: white;
+  }
+
+  .card {
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    background-color: #ffffff;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .form-control {
+    border-radius: 8px;
+  }
+
+  .alert {
+    font-size: 0.95rem;
+  }
+
+  .btn-secondary {
+    border-radius: 25px;
+    padding: 8px 20px;
+  }
+
+  .btn-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+  }
+</style>
+
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="card mx-auto shadow rounded" style="max-width: 700px;">
+      <div class="card-body p-4">
+        <h2 class="mb-4 text-orange text-center fw-bold">Add New Doctor</h2>
+
+        <?php if ($success): ?>
+            <div class="alert alert-success text-center"><?= htmlspecialchars($success) ?></div>
+        <?php elseif ($error): ?>
+            <div class="alert alert-danger text-center"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+
+        <form method="post" enctype="multipart/form-data">
+          <div class="mb-3">
             <label class="form-label">Full Name</label>
             <input type="text" name="name" class="form-control" required>
-        </div>
-        <div class="mb-3">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Title (e.g. Pulmonologist)</label>
             <input type="text" name="title" class="form-control" required>
-        </div>
-        <div class="mb-3">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Bio</label>
             <textarea name="bio" class="form-control" rows="3" required></textarea>
-        </div>
-        <div class="mb-3">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Experience (e.g. 10 years)</label>
             <input type="text" name="experience" class="form-control" required>
-        </div>
-        <div class="mb-3">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Specialized In</label>
             <input type="text" name="specialized_in" class="form-control" required>
-        </div>
-        <div class="mb-3">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Doctor Image (optional)</label>
             <input type="file" name="image" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Add Doctor</button>
-    </form>
-</div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-orange px-5 py-2 fw-semibold rounded-pill shadow-sm">
+            <i class="fas fa-user-md me-2"></i> Add Doctor</button>
+            <a href="doctors.php" class="btn btn-secondary ms-2">Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 

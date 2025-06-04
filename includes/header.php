@@ -1,6 +1,5 @@
-
 <?php
-session_start();
+require 'config.php';
 
 $isLoggedIn = isset($_SESSION['user_id']) && (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin');
 $userName = $isLoggedIn ? $_SESSION['user_name'] : '';

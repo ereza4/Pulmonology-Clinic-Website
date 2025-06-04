@@ -55,3 +55,5 @@ INSERT INTO users (name, email, password, role)
 VALUES ('Admin', 'admin@clinic.com', '$2y$10$vz1daAcR2UdgWgo5SRMZn.HJ/JjstBX2DgOLE8Gg.VVwiqy3xbvvm', 'admin');
 
 --admin123
+
+ALTER TABLE users ADD is_active TINYINT(1) DEFAULT 1;

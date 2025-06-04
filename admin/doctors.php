@@ -44,7 +44,7 @@ $doctors = $conn->query("SELECT * FROM doctors ORDER BY id DESC")->fetchAll(PDO:
 </head>
 <body>
 <div class="container mt-5">
-  <h2 class="mb-4 text-orange">👨‍⚕️ Manage Doctors</h2>
+  <h2 class="mb-4 text-orange">Manage Doctors</h2>
 
   <a href="add-doctors.php" class="btn btn-orange mb-3">Add New Doctor</a>
 
@@ -65,10 +65,10 @@ $doctors = $conn->query("SELECT * FROM doctors ORDER BY id DESC")->fetchAll(PDO:
           <td><img src="../assets/img/<?= htmlspecialchars($doc['image']) ?>" alt="Doctor"></td>
           <td><?= htmlspecialchars($doc['name']) ?></td>
           <td><?= htmlspecialchars($doc['title']) ?></td>
-          <td><?= htmlspecialchars($doc['experience']) ?> yrs</td>
+          <td><?= htmlspecialchars($doc['experience']) ?></td>
           <td><?= htmlspecialchars($doc['specialized_in']) ?></td>
           <td>
-            <a href="edit-doctor.php?id=<?= $doc['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+            <a href="edit_doctors.php?id=<?= $doc['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
             <a href="?delete=<?= $doc['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">Delete</a>
           </td>
         </tr>

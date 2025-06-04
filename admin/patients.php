@@ -7,7 +7,17 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     exit();
 }
 
-$stmt = $conn->prepare("SELECT id, name, email, created_at FROM users WHERE role = 'patient' ORDER BY created_at DESC");
+
+if (isset($_GET['toggle'])) {
+    $id = intval($_GET['toggle']);
+    $stmt = $conn->prepare("UPDATE users SET is_active = NOT is_active WHERE id = ? AND role = 'patient'");
+    $stmt->execute([$id]);
+    header("Location: patients.php");
+    exit();
+}
+
+
+$stmt = $conn->prepare("SELECT id, name, email, created_at, is_active FROM users WHERE role = 'patient' ORDER BY created_at DESC");
 $stmt->execute();
 $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -26,6 +36,8 @@ include 'inc/admin_header.php';
             <th>Full Name</th>
             <th>Email</th>
             <th>Registered At</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +47,18 @@ include 'inc/admin_header.php';
               <td><?= htmlspecialchars($patient['name']) ?></td>
               <td><?= htmlspecialchars($patient['email']) ?></td>
               <td><?= date('d M Y, H:i', strtotime($patient['created_at'])) ?></td>
+              <td class="text-center">
+                <span class="badge <?= $patient['is_active'] ? 'bg-success' : 'bg-danger' ?>">
+                  <?= $patient['is_active'] ? 'Active' : 'Inactive' ?>
+                </span>
+              </td>
+              <td class="text-center">
+                <a href="patients.php?toggle=<?= $patient['id'] ?>" 
+                   class="btn btn-sm <?= $patient['is_active'] ? 'btn-danger' : 'btn-success' ?>"
+                   onclick="return confirm('Are you sure you want to <?= $patient['is_active'] ? 'deactivate' : 'activate' ?> this account?')">
+                  <?= $patient['is_active'] ? 'Deactivate' : 'Activate' ?>
+                </a>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -46,4 +70,3 @@ include 'inc/admin_header.php';
     </div>
   <?php endif; ?>
 </div>
-

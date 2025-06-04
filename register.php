@@ -77,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background-color: #e96c00;
       color: white;
     }
+    .text-orange {
+      color: #ff7a00;
+    }
   </style>
 </head>
 <body>
