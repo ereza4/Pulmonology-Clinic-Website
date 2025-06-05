@@ -72,7 +72,7 @@ The contact form allows visitors to send inquiries. Email delivery is sandboxed 
 
 ---
 
-## 🛠 Technologies Used
+##  Technologies Used
 
 - PHP (backend)
 - MySQL (database)
